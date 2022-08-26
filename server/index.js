@@ -8,7 +8,7 @@ const DB = 'mongodb+srv://sid:naruto9976@cluster0.tucwjjl.mongodb.net/?retryWrit
 
 app.use(express.json());
 app.use(authRouter);
-
+ 
 mongoose
   .connect(DB)
   .then(() => {
