@@ -6,6 +6,7 @@ import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   //sign up user
@@ -67,7 +68,9 @@ class AuthService {
       httpErrorHandle(
           response: res,
           context: context,
-          onSuccess: () {
+          onSuccess: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString('x-auth0-token', jsonDecode(res.body)['token']);
 
           });
     } catch (e) {
