@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/features/auth/services/auth_service.dart';
+import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +32,33 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
 
+  bool showIndicator = true;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    loading();
+    authService.getUserData(context);
+  }
+
+  void loading() {
+    setState(() {
+      showIndicator = true;
+    });
+    Future.delayed(const Duration(seconds: 3)).then((_) {
+      setState(() {
+        showIndicator = false;
+      });
+    });
+  }
+
+  Widget progressIndicator() {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 
   @override
@@ -52,7 +78,11 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const AuthScreen(),
+      home: showIndicator
+          ? progressIndicator()
+          : Provider.of<UserProvider>(context).user.token.isNotEmpty
+              ? const HomeScreen()
+              : const AuthScreen(),
     );
   }
 }
