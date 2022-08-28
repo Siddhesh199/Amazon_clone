@@ -41,11 +41,17 @@ class AuthService {
       httpErrorHandle(
           response: res,
           context: context,
-          onSuccess: () {
+          onSuccess: () async {
             showSnackBar(
               context,
-              'Account generated! Sign In with the same credentials',
+              'Account generated!',
             );
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+            await prefs.setString(
+                'x-auth-token', jsonDecode(res.body)['token']);
+            Navigator.pushNamedAndRemoveUntil(
+                context, BottomBar.routeName, (route) => false);
           });
     } catch (e) {
       showSnackBar(context, e.toString());

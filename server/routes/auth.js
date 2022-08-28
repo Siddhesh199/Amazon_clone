@@ -26,7 +26,8 @@ authRouter.post("/api/signup", async (req, res) => {
       username,
     });
     user = await user.save();
-    res.json(user);
+    const token = jwt.sign({ id: user._id }, "passwordKey");
+    res.json({ token, ...user._doc });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
