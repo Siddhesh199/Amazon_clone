@@ -27,6 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   bool loading = false;
+  bool passwordVisible = false;
 
   @override
   void dispose() {
@@ -62,6 +63,45 @@ class _AuthScreenState extends State<AuthScreen> {
       context: context,
       email: _emailController.text,
       password: _passwordController.text,
+    );
+    setState(() {
+      loading = true;
+    });
+  }
+
+  Widget passwordTextField() {
+    return TextFormField(
+      keyboardType: TextInputType.visiblePassword,
+      controller: _passwordController,
+      obscureText: !passwordVisible,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.black38,
+          ),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.black38,
+          ),
+        ),
+        labelText: 'Password',
+        hintText: 'Enter your password',
+        // Here is key idea
+        suffixIcon: IconButton(
+          icon: Icon(
+            passwordVisible ? Icons.visibility : Icons.visibility_off,
+            color: Theme.of(context).primaryColorDark,
+          ),
+          onPressed: () {
+            setState(
+              () {
+                passwordVisible = !passwordVisible;
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -99,9 +139,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         value: Auth.signup,
                         groupValue: _auth,
                         onChanged: (Auth? val) {
-                          setState(() {
-                            _auth = val!;
-                          });
+                          setState(
+                            () {
+                              _auth = val!;
+                            },
+                          );
                         },
                       ),
                     ),
@@ -116,26 +158,27 @@ class _AuthScreenState extends State<AuthScreen> {
                               CustomTextField(
                                 controller: _usernameController,
                                 hintText: 'Username',
+                                labelText: 'Username',
+                                textInputType: TextInputType.name,
                               ),
                               const SizedBox(height: 10),
                               CustomTextField(
                                 controller: _emailController,
                                 hintText: 'Email',
+                                labelText: 'Email',
+                                textInputType: TextInputType.emailAddress,
                               ),
                               const SizedBox(height: 10),
-                              CustomTextField(
-                                controller: _passwordController,
-                                hintText: 'Password',
-                              ),
+                              passwordTextField(),
                               const SizedBox(height: 10),
                               CustomButton(
-                                  text: 'Sign Up',
-                                  onTap: () {
-                                    if (_signUpFormKey.currentState!
-                                        .validate()) {
-                                      signUpUser();
-                                    }
-                                  }),
+                                text: 'Sign Up',
+                                onTap: () {
+                                  if (_signUpFormKey.currentState!.validate()) {
+                                    signUpUser();
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -155,9 +198,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         value: Auth.signin,
                         groupValue: _auth,
                         onChanged: (Auth? val) {
-                          setState(() {
-                            _auth = val!;
-                          });
+                          setState(
+                            () {
+                              _auth = val!;
+                            },
+                          );
                         },
                       ),
                     ),
@@ -173,21 +218,20 @@ class _AuthScreenState extends State<AuthScreen> {
                               CustomTextField(
                                 controller: _emailController,
                                 hintText: 'Email',
+                                labelText: 'Email',
+                                textInputType: TextInputType.emailAddress,
                               ),
                               const SizedBox(height: 10),
-                              CustomTextField(
-                                controller: _passwordController,
-                                hintText: 'Password',
-                              ),
+                              passwordTextField(),
                               const SizedBox(height: 10),
                               CustomButton(
-                                  text: 'Sign In',
-                                  onTap: () {
-                                    if (_signInFormKey.currentState!
-                                        .validate()) {
-                                      signInUser();
-                                    }
-                                  }),
+                                text: 'Sign In',
+                                onTap: () {
+                                  if (_signInFormKey.currentState!.validate()) {
+                                    signInUser();
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         ),
