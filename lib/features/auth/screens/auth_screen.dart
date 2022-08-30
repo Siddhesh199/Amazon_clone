@@ -4,6 +4,7 @@ import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/custom_textfield.dart';
+import '../../../common/widgets/custom_password_textfield.dart';
 
 enum Auth {
   signin,
@@ -67,42 +68,6 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() {
       loading = true;
     });
-  }
-
-  Widget passwordTextField() {
-    return TextFormField(
-      keyboardType: TextInputType.visiblePassword,
-      controller: _passwordController,
-      obscureText: !passwordVisible,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.black38,
-          ),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.black38,
-          ),
-        ),
-        labelText: 'Password',
-        hintText: 'Enter your password',
-        // Here is key idea
-        suffixIcon: IconButton(
-          icon: Icon(
-            passwordVisible ? Icons.visibility : Icons.visibility_off,
-            color: Theme.of(context).primaryColorDark,
-          ),
-          onPressed: () {
-            setState(
-              () {
-                passwordVisible = !passwordVisible;
-              },
-            );
-          },
-        ),
-      ),
-    );
   }
 
   @override
@@ -169,7 +134,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                 textInputType: TextInputType.emailAddress,
                               ),
                               const SizedBox(height: 10),
-                              passwordTextField(),
+                              CustomPasswordTextField(
+                                  passwordController: _passwordController,
+                                  passwordVisible: !passwordVisible,
+                                  togglePassword: () {
+                                    setState(() {
+                                      passwordVisible = !passwordVisible;
+                                    });
+                                  }),
                               const SizedBox(height: 10),
                               CustomButton(
                                 text: 'Sign Up',
@@ -222,7 +194,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                 textInputType: TextInputType.emailAddress,
                               ),
                               const SizedBox(height: 10),
-                              passwordTextField(),
+                              CustomPasswordTextField(
+                                  passwordController: _passwordController,
+                                  passwordVisible: !passwordVisible,
+                                  togglePassword: () {
+                                    setState(() {
+                                      passwordVisible = !passwordVisible;
+                                    });
+                                  }),
                               const SizedBox(height: 10),
                               CustomButton(
                                 text: 'Sign In',
