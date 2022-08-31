@@ -28,7 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   bool loading = false;
-  bool passwordVisible = false;
+  bool passwordVisible = true;
 
   @override
   void dispose() {
