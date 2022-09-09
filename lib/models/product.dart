@@ -8,7 +8,6 @@ class Product {
   final String category;
   final double price;
   final String? id;
-  final String? userId;
 
   Product({
     required this.name,
@@ -18,7 +17,6 @@ class Product {
     required this.category,
     required this.price,
     this.id,
-    this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -42,7 +40,6 @@ class Product {
       category: map['category'] ?? '',
       price: map['price']?.toDouble() ?? 0.0,
       id: map['_id'],
-      userId: map['userId'],
     );
   }
 
