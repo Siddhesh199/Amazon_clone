@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class AdminServices {
-  void sellProduct({
+  void addProduct({
     required BuildContext context,
     required String name,
     required String description,
