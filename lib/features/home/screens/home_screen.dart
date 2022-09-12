@@ -1,4 +1,6 @@
+import 'package:amazon_clone/autocomplete.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_the_day.dart';
@@ -38,11 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     elevation: 1,
                     child: TextFormField(
                       onFieldSubmitted: (String query) {
-                        Navigator.pushNamed(
-                          context,
-                          SearchScreen.routeName,
-                          arguments: query,
-                        );
+                        if (query == '') {
+                          showSnackBar(context, 'Search field is empty');
+                        } else {
+                          Navigator.pushNamed(
+                            context,
+                            SearchScreen.routeName,
+                            arguments: query,
+                          );
+                        }
                       },
                       decoration: InputDecoration(
                         prefixIcon: InkWell(
@@ -84,14 +90,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(
-                  Icons.mic,
-                  color: Colors.black,
-                  size: 25,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AutoCompleteScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  height: 42,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: const Icon(
+                    Icons.mic,
+                    color: Colors.black,
+                    size: 25,
+                  ),
                 ),
               )
             ],
