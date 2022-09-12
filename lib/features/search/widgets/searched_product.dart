@@ -14,12 +14,12 @@ class SearchedProduct extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Row(
             children: [
               Image.network(
                 product.images[0],
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
                 height: 135,
                 width: 135,
               ),
@@ -40,6 +40,34 @@ class SearchedProduct extends StatelessWidget {
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
                     child: const Stars(rating: 4),
+                  ),
+                  Container(
+                    width: 235,
+                    padding: const EdgeInsets.only(left: 10, top: 5),
+                    child: Text(
+                      '\$${product.price}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                  Container(
+                    width: 235,
+                    padding: const EdgeInsets.only(left: 10),
+                    child: const Text('Eligible for FREE shipping'),
+                  ),
+                  Container(
+                    width: 235,
+                    padding: const EdgeInsets.only(left: 10),
+                    child: const Text(
+                      'In stock',
+                      style: TextStyle(
+                        color: Colors.teal,
+                      ),
+                      maxLines: 2,
+                    ),
                   ),
                 ],
               ),
