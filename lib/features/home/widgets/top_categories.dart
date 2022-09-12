@@ -5,11 +5,6 @@ import 'package:flutter/material.dart';
 class TopCategories extends StatelessWidget {
   const TopCategories({Key? key}) : super(key: key);
 
-  // void navigateToCategoryPage(BuildContext context, String category) {
-  //   Navigator.pushNamed(context, CategoryDealsScreen.routeName,
-  //       arguments: category);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,8 +22,6 @@ class TopCategories extends StatelessWidget {
                 arguments: GlobalVariables.categoryImages[index]['title']!,
               );
             },
-            // navigateToCategoryPage(
-            // context, GlobalVariables.categoryImages[index]['title']!),
             child: Column(
               children: [
                 Container(
