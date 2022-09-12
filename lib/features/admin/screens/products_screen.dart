@@ -28,6 +28,47 @@ class _ProductsScreenState extends State<ProductsScreen> {
     setState(() {});
   }
 
+  void deleteProduct(Product product, int index) {
+    adminServices.deleteProduct(
+      context: context,
+      product: product,
+      onSuccess: () {
+        products!.removeAt(index);
+        setState(() {});
+      },
+    );
+  }
+
+  showAlertDialog(BuildContext context, Product product, int index) {
+    Widget cancelButton = TextButton(
+      child: const Text("No"),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Yes"),
+      onPressed: () {
+        deleteProduct(product, index);
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Alert"),
+      content: const Text("Are you sure that you want to delete the item?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return products == null
@@ -62,7 +103,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               ),
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () =>
+                                  showAlertDialog(context, productData, index),
                               icon: const Icon(
                                 Icons.delete_outline,
                               ),
