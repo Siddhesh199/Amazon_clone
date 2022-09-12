@@ -1,4 +1,5 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
+import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -51,14 +52,6 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  Widget progressIndicator() {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   void signInUser() {
     authService.signInUser(
       context: context,
@@ -73,7 +66,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? progressIndicator()
+        ? const Loader()
         : Scaffold(
             backgroundColor: GlobalVariables.greyBackgroundColor,
             body: SafeArea(

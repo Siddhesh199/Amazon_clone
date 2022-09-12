@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_textfield.dart';
+import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
@@ -66,14 +67,6 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
     }
   }
 
-  Widget progressIndicator() {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   void selectImages() async {
     var res = await pickImages();
     setState(() {
@@ -84,7 +77,7 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? progressIndicator()
+        ? const Loader()
         : Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(50.0),
