@@ -5,6 +5,7 @@ import 'package:amazon_clone/features/search/services/search_services.dart';
 import 'package:amazon_clone/features/search/widgets/searched_product.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String routeName = '/search-screen';
@@ -21,12 +22,20 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   List<Product>? products;
   final SearchServices searchServices = SearchServices();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     fetchSearchedProduct();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _searchController.dispose();
   }
 
   fetchSearchedProduct() async {
@@ -57,50 +66,71 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Material(
                     borderRadius: BorderRadius.circular(7),
                     elevation: 1,
-                    child: TextFormField(
-                      onFieldSubmitted: (String query) {
-                        Navigator.pushNamed(
-                          context,
-                          SearchScreen.routeName,
-                          arguments: query,
-                        );
+                    child: TypeAheadField(
+                      loadingBuilder: (context) {
+                        return const SizedBox();
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: InkWell(
-                          onTap: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 6),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                              size: 23,
+                      minCharsForSuggestions: 1,
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          prefixIcon: InkWell(
+                            onTap: () {},
+                            child: const Padding(
+                              padding: EdgeInsets.only(left: 6),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.black,
+                                size: 23,
+                              ),
                             ),
                           ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(7),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.only(top: 10),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(7),
+                            ),
+                            borderSide: BorderSide.none,
                           ),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(7),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(7),
+                            ),
+                            borderSide: BorderSide(
+                              color: Colors.black38,
+                              width: 1,
+                            ),
                           ),
-                          borderSide: BorderSide(
-                            color: Colors.black38,
-                            width: 1,
+                          hintText: 'Search Amazon.in',
+                          helperStyle: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
                           ),
-                        ),
-                        hintText: 'Search Amazon.in',
-                        helperStyle: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
                         ),
                       ),
+                      suggestionsCallback: (_) async {
+                        return await searchServices.fetchSearchedProduct(
+                          context: context,
+                          searchQuery: _searchController.text,
+                        );
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          leading: const Icon(Icons.shopping_cart),
+                          title: Text(suggestion.name),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => SearchScreen(
+                              searchQuery: suggestion.name,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
