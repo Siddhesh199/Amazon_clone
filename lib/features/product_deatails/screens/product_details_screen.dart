@@ -5,10 +5,12 @@ import 'package:amazon_clone/features/product_deatails/services/product_details_
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
 import 'package:amazon_clone/models/product.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const String routeName = '/product-details';
@@ -27,6 +29,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ProductDetailsServices();
   final TextEditingController _searchController = TextEditingController();
   final SearchServices searchServices = SearchServices();
+  double averageRating = 0;
+  double myRating = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    double totalRating = 0;
+    for (int i = 0; i < widget.product.rating!.length; i++) {
+      totalRating += widget.product.rating![i].rating;
+      if (widget.product.rating![i].userId ==
+          Provider.of<UserProvider>(context, listen: false).user.id) {
+        myRating = widget.product.rating![i].rating;
+      }
+    }
+    if (totalRating != 0) {
+      averageRating = totalRating / widget.product.rating!.length;
+    }
+  }
 
   @override
   void dispose() {
@@ -150,7 +171,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.product.id!),
-                  const Stars(rating: 4),
+                  Stars(rating: averageRating),
                 ],
               ),
             ),
@@ -246,7 +267,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             RatingBar.builder(
-              initialRating: 0,
+              initialRating: myRating,
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
