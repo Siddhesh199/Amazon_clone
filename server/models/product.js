@@ -29,6 +29,7 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  ratings: []
 });
 
 const Product = mongoose.model("Product", productSchema);
