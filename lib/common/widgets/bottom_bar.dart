@@ -20,7 +20,7 @@ class _BottomBarState extends State<BottomBar> {
   Icon item1 = const Icon(Icons.home_outlined);
   Icon item2 = const Icon(Icons.person_outline_outlined);
 
-  BottomNavigationBarItem bottomBarItem(Icon icon, int index) {
+  BottomNavigationBarItem bottomBarItem(Icon icon, int index, String label) {
     return BottomNavigationBarItem(
         icon: Container(
           width: bottomBarWidth,
@@ -35,7 +35,7 @@ class _BottomBarState extends State<BottomBar> {
           ),
           child: icon,
         ),
-        label: '');
+        label: label);
   }
 
   List<Widget> pages = [
@@ -64,8 +64,8 @@ class _BottomBarState extends State<BottomBar> {
         iconSize: 28,
         onTap: updatePage,
         items: [
-          bottomBarItem(item1, 0),
-          bottomBarItem(item2, 1),
+          bottomBarItem(item1, 0, 'Home'),
+          bottomBarItem(item2, 1, 'Profile'),
           BottomNavigationBarItem(
               icon: Container(
                 width: bottomBarWidth,
@@ -85,7 +85,7 @@ class _BottomBarState extends State<BottomBar> {
                   child: const Icon(Icons.shopping_cart_outlined),
                 ),
               ),
-              label: ''),
+              label: 'Cart'),
         ],
       ),
     );
