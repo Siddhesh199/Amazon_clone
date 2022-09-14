@@ -78,7 +78,7 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
                       padding: const EdgeInsets.all(10.0),
                       child: Image.network(
                         product!.images[displayedProduct],
-                        height: 235,
+                        height: 335,
                         fit: BoxFit.fitHeight,
                       ),
                     ),
