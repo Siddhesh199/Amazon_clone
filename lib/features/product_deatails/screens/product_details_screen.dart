@@ -135,7 +135,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       },
                       onSuggestionSelected: (suggestion) {
                         _searchController.text = '';
-                        Navigator.of(context).push(
+                        Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (context) => SearchScreen(
                               searchQuery: suggestion.name,

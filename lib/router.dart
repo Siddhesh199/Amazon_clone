@@ -2,6 +2,7 @@ import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/features/admin/screens/add_products_screen.dart';
 import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
+import 'package:amazon_clone/features/home/screens/see_all_deals_screen.dart';
 import 'package:amazon_clone/features/product_deatails/screens/product_details_screen.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/models/product.dart';
@@ -54,6 +55,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => ProductDetailsScreen(
           product: product,
         ),
+      );
+    case SeeAllDealsScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => SeeAllDealsScreen(),
       );
     default:
       return MaterialPageRoute(
