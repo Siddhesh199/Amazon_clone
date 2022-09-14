@@ -1,4 +1,6 @@
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
+import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
 import 'package:flutter/material.dart';
@@ -125,6 +127,14 @@ class _CartScreenState extends State<CartScreen> {
               )
             ],
           ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const AddressBox(),
+            const CartSubtotal(),
+          ],
         ),
       ),
     );

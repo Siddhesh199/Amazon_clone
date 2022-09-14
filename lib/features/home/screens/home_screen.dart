@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   final SearchServices searchServices = SearchServices();
-  final SearchBar searchBar = SearchBar();
 
   @override
   void dispose() {
