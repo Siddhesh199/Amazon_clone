@@ -1,7 +1,7 @@
 import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/features/home/screens/see_all_deals_screen.dart';
 import 'package:amazon_clone/features/home/services/home_services.dart';
-import 'package:amazon_clone/features/product_deatails/screens/product_details_screen.dart';
+import 'package:amazon_clone/features/product_details/screens/product_details_screen.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +15,7 @@ class DealOfTheDay extends StatefulWidget {
 class _DealOfTheDayState extends State<DealOfTheDay> {
   Product? product;
   final HomeServices homeServices = HomeServices();
+  int displayedProduct = 0;
 
   @override
   void initState() {
@@ -76,7 +77,7 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Image.network(
-                        product!.images[0],
+                        product!.images[displayedProduct],
                         height: 235,
                         fit: BoxFit.fitHeight,
                       ),
@@ -112,11 +113,19 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: product!.images
                             .map(
-                              (e) => Image.network(
-                                e,
-                                fit: BoxFit.fitWidth,
-                                width: 100,
-                                height: 100,
+                              (e) => GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    displayedProduct =
+                                        product!.images.indexOf(e);
+                                  });
+                                },
+                                child: Image.network(
+                                  e,
+                                  fit: BoxFit.fitWidth,
+                                  width: 100,
+                                  height: 100,
+                                ),
                               ),
                             )
                             .toList(),
