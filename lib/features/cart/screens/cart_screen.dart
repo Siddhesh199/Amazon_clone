@@ -1,26 +1,19 @@
 import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/features/home/widgets/address_box.dart';
-import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
-import 'package:amazon_clone/features/home/widgets/deal_of_the_day.dart';
-import 'package:amazon_clone/features/home/widgets/top_categories.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import '../../../common/widgets/search_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String routeName = '/home';
-  const HomeScreen({Key? key}) : super(key: key);
+class CartScreen extends StatefulWidget {
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<CartScreen> createState() => _CartScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _CartScreenState extends State<CartScreen> {
   final TextEditingController _searchController = TextEditingController();
   final SearchServices searchServices = SearchServices();
-  final SearchBar searchBar = SearchBar();
 
   @override
   void dispose() {
@@ -132,18 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: const [
-            AddressBox(),
-            SizedBox(height: 10),
-            TopCategories(),
-            SizedBox(height: 10),
-            CarouselImage(),
-            DealOfTheDay(),
-          ],
         ),
       ),
     );
