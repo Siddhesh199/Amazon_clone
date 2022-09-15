@@ -18,11 +18,56 @@ class CartProduct extends StatefulWidget {
 class _CartProductState extends State<CartProduct> {
   final CartServices cartServices = CartServices();
 
+  showAlertDialog(BuildContext context, Product product) {
+    Widget cancelButton = TextButton(
+      child: const Text("No"),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Yes"),
+      onPressed: () {
+        cartServices.removeFromCart(
+          context: context,
+          product: product,
+        );
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Alert"),
+      content: const Text(
+          "Are you sure that you want to remove the item from cart?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final productCart = context.watch<UserProvider>().user.cart[widget.index];
     final product = Product.fromMap(productCart['product']);
     final quantity = productCart['quantity'];
+
+    void removeFromCart(Product product) {
+      if (quantity == 1) {
+        showAlertDialog(context, product);
+      } else {
+        cartServices.removeFromCart(
+          context: context,
+          product: product,
+        );
+      }
+    }
 
     return Column(
       children: [
@@ -98,13 +143,16 @@ class _CartProductState extends State<CartProduct> {
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      width: 35,
-                      height: 32,
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.remove,
-                        size: 18,
+                    InkWell(
+                      onTap: () => removeFromCart(product),
+                      child: Container(
+                        width: 35,
+                        height: 32,
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.remove,
+                          size: 18,
+                        ),
                       ),
                     ),
                     Container(
