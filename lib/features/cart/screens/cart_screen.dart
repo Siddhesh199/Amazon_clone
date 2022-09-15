@@ -1,10 +1,14 @@
+import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/cart/widgets/cart_product.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -26,6 +30,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
@@ -129,13 +134,34 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AddressBox(),
-            const CartSubtotal(),
-          ],
-        ),
+      body: Column(
+        children: [
+          const AddressBox(),
+          const CartSubtotal(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomButton(
+              text: 'Proceed to Buy (${user.cart.length} items)',
+              onTap: () {},
+              color: Colors.yellow[600],
+            ),
+          ),
+          const SizedBox(height: 15),
+          Container(
+            color: Colors.black12.withOpacity(0.08),
+            height: 1,
+          ),
+          const SizedBox(height: 5),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: user.cart.length,
+              itemBuilder: (context, index) {
+                return CartProduct(index: index);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

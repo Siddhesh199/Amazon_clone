@@ -24,7 +24,6 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
         let productFound = user.cart.find((p) =>
           p.product._id.equals(product._id)
         );
-        productFound.quantity = 1;
         productFound.exists = true;
       } else {
         user.cart.push({ product, quantity: 1, exists: false });
