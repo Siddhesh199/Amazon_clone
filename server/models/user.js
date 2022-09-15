@@ -45,6 +45,10 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: true,
       },
+      exists: {
+        type: Boolean,
+        required: true,
+      },
     },
   ],
 });

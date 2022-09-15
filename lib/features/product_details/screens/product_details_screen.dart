@@ -3,14 +3,12 @@ import 'package:amazon_clone/common/widgets/search_bar.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
-import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

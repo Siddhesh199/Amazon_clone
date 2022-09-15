@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsServices {
+  bool productAdded = false;
   void addToCart({
     required BuildContext context,
     required Product product,
@@ -36,7 +37,19 @@ class ProductDetailsServices {
             cart: jsonDecode(res.body)['cart'],
           );
           userProvider.setUserFromModel(user);
-          showSnackBar(context, 'Product successfully added to cart');
+          for (int i = 0; i < user.cart.length; i++) {
+            if (user.cart[i]['exists'] == false) {
+              productAdded = true;
+            } else {
+              productAdded = false;
+            }
+          }
+
+          if (productAdded) {
+            showSnackBar(context, 'Product successfully added to cart');
+          } else {
+            showSnackBar(context, 'Product already exists in cart');
+          }
         },
       );
     } catch (e) {

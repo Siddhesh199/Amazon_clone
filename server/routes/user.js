@@ -11,7 +11,7 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
     let user = await User.findById(req.user);
 
     if (user.cart.length == 0) {
-      user.cart.push({ product, quantity: 1 });
+      user.cart.push({ product, quantity: 1, exists: false });
     } else {
       let isProductFound = false;
       for (let i = 0; i < user.cart.length; i++) {
@@ -24,15 +24,18 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
         let productFound = user.cart.find((p) =>
           p.product._id.equals(product._id)
         );
-        productFound.quantity += 1;
+        productFound.quantity = 1;
+        productFound.exists = true;
       } else {
-        user.cart.push({ product, quantity: 1 });
+        user.cart.push({ product, quantity: 1, exists: false });
       }
     }
+    // user.cart = [];
     user = await user.save();
     res.json(user);
   } catch (e) {
     res.status(500).json({ error: e.message });
+    console.error(e.message);
   }
 });
 
