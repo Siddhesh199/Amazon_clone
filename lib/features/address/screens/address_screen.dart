@@ -51,7 +51,11 @@ class _AddressScreenState extends State<AddressScreen> {
     cityController.dispose();
   }
 
-  void onGooglePayResult(res) {}
+  void onGooglePayResult(res) {
+    if(Provider.of<UserProvider>(context).user.address.isEmpty){
+      
+    }
+  }
 
   void payPressed(String addressFromProvider) {
     addressToBeUsed = "";
