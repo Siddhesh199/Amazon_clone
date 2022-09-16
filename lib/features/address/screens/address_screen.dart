@@ -96,6 +96,19 @@ class _AddressScreenState extends State<AddressScreen> {
     }
   }
 
+  void placeOrder(String address) {
+    addressServices.saveUserAddress(
+      context: context,
+      address: address,
+    );
+
+    addressServices.placeOrder(
+      context: context,
+      address: address,
+      totalSum: double.parse(widget.totalAmount),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var address = context.watch<UserProvider>().user.address;
@@ -194,32 +207,14 @@ class _AddressScreenState extends State<AddressScreen> {
                               });
                               address =
                                   '${flatBuildingController.text}, ${areaController.text}, ${cityController.text} - ${pincodeController.text}';
-                              addressServices.saveUserAddress(
-                                context: context,
-                                address: address,
-                              );
-
-                              addressServices.placeOrder(
-                                context: context,
-                                address: address,
-                                totalSum: double.parse(widget.totalAmount),
-                              );
+                              placeOrder(address);
                               Navigator.pop(context);
                             }
                           } else {
                             setState(() {
                               loading = true;
                             });
-                            addressServices.saveUserAddress(
-                              context: context,
-                              address: address,
-                            );
-
-                            addressServices.placeOrder(
-                              context: context,
-                              address: address,
-                              totalSum: double.parse(widget.totalAmount),
-                            );
+                            placeOrder(address);
                             Navigator.pop(context);
                           }
                         } else {
@@ -230,16 +225,7 @@ class _AddressScreenState extends State<AddressScreen> {
                             address =
                                 '${flatBuildingController.text}, ${areaController.text}, ${cityController.text} - ${pincodeController.text}';
 
-                            addressServices.saveUserAddress(
-                              context: context,
-                              address: address,
-                            );
-
-                            addressServices.placeOrder(
-                              context: context,
-                              address: address,
-                              totalSum: double.parse(widget.totalAmount),
-                            );
+                            placeOrder(address);
                             Navigator.pop(context);
                           }
                         }
