@@ -1,5 +1,6 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_product.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
@@ -142,7 +143,8 @@ class _CartScreenState extends State<CartScreen> {
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
               text: 'Proceed to Buy (${user.cart.length} items)',
-              onTap: () {},
+              onTap: () =>
+                  Navigator.pushNamed(context, AddressScreen.routeName),
               color: Colors.yellow[600],
             ),
           ),
@@ -152,15 +154,22 @@ class _CartScreenState extends State<CartScreen> {
             height: 1,
           ),
           const SizedBox(height: 5),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: user.cart.length,
-              itemBuilder: (context, index) {
-                return CartProduct(index: index);
-              },
-            ),
-          ),
+          user.cart.isEmpty
+              ? const SizedBox(
+                  height: 300,
+                  child: Center(
+                    child: Text('No items in cart'),
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: user.cart.length,
+                    itemBuilder: (context, index) {
+                      return CartProduct(index: index);
+                    },
+                  ),
+                ),
         ],
       ),
     );
