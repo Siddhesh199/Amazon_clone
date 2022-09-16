@@ -1,5 +1,6 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_product.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
@@ -148,8 +149,14 @@ class _CartScreenState extends State<CartScreen> {
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
               text: 'Proceed to Buy (${user.cart.length} items)',
-              onTap: () => Navigator.pushNamed(context, AddressScreen.routeName,
-                  arguments: '$sum'),
+              onTap: () {
+                if (user.cart.isEmpty) {
+                  showSnackBar(context, 'There are no items in cart');
+                } else {
+                  Navigator.pushNamed(context, AddressScreen.routeName,
+                      arguments: '$sum');
+                }
+              },
               color: Colors.yellow[600],
             ),
           ),
@@ -160,10 +167,12 @@ class _CartScreenState extends State<CartScreen> {
           ),
           const SizedBox(height: 5),
           user.cart.isEmpty
-              ? const SizedBox(
-                  height: 300,
-                  child: Center(
-                    child: Text('No items in cart'),
+              ? const Expanded(
+                  child: SizedBox(
+                    height: 300,
+                    child: Center(
+                      child: Text('No items in cart'),
+                    ),
                   ),
                 )
               : Expanded(
