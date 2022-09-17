@@ -120,7 +120,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
       totalPrice,
       address,
       userId: req.user,
-      orderedAt: new Date().getMilliseconds(),
+      orderedAt: new Date().getTime(),
     });
 
     order = await order.save();
