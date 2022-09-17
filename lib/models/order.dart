@@ -10,7 +10,7 @@ class Order {
   final String userId;
   final int orderedAt;
   final int status;
-  final int totalPrice;
+  final double totalPrice;
 
   Order({
     required this.id,
