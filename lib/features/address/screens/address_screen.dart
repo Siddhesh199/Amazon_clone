@@ -107,6 +107,7 @@ class _AddressScreenState extends State<AddressScreen> {
       address: address,
       totalSum: double.parse(widget.totalAmount),
     );
+    Navigator.pop(context);
   }
 
   @override
@@ -208,14 +209,12 @@ class _AddressScreenState extends State<AddressScreen> {
                               address =
                                   '${flatBuildingController.text}, ${areaController.text}, ${cityController.text} - ${pincodeController.text}';
                               placeOrder(address);
-                              Navigator.pop(context);
                             }
                           } else {
                             setState(() {
                               loading = true;
                             });
                             placeOrder(address);
-                            Navigator.pop(context);
                           }
                         } else {
                           if (_addressFormKey.currentState!.validate()) {
@@ -226,7 +225,6 @@ class _AddressScreenState extends State<AddressScreen> {
                                 '${flatBuildingController.text}, ${areaController.text}, ${cityController.text} - ${pincodeController.text}';
 
                             placeOrder(address);
-                            Navigator.pop(context);
                           }
                         }
                       },
