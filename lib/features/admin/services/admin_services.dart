@@ -173,7 +173,10 @@ class AdminServices {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
-        body: jsonEncode({'id': order.id}),
+        body: jsonEncode({
+          'id': order.id,
+          'status': status,
+        }),
       );
 
       httpErrorHandle(
