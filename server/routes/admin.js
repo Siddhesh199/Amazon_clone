@@ -63,4 +63,53 @@ adminRouter.post("/admin/change-order-status", admin, async (req, res) => {
   }
 });
 
+adminRouter.get("/admin/analytics", admin, async (req, res) => {
+  try {
+    const orders = await Order.find({});
+    let totalEarnings = 0;
+
+    for (let i = 0; i < orders.length; i++) {
+      for (let j = 0; j < orders[i].products.length; j++) {
+        totalEarnings +=
+          orders[i].products[j].quantity * orders[i].products[j].product.price;
+      }
+    }
+    //Category wise order fetching
+    let mobileEarnings = await fetchCategoryWiseProducts("Mobiles");
+    let essentialEarnings = await fetchCategoryWiseProducts("Essentials");
+    let applianceEarnings = await fetchCategoryWiseProducts("Appliances");
+    let bookEarnings = await fetchCategoryWiseProducts("Books");
+    let fashionEarnings = await fetchCategoryWiseProducts("Fashion");
+
+    let earnings = {
+      totalEarnings,
+      mobileEarnings,
+      essentialEarnings,
+      applianceEarnings,
+      bookEarnings,
+      fashionEarnings,
+    };
+
+    res.json(earnings);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+const fetchCategoryWiseProducts = async (category) => {
+  let earnings = 0;
+  let categoryOrders = await Order.find({
+    "products.product.category": category,
+  });
+
+  for (let i = 0; i < categoryOrders.length; i++) {
+    for (let j = 0; j < categoryOrders[i].products.length; j++) {
+      earnings +=
+        categoryOrders[i].products[j].quantity *
+        categoryOrders[i].products[j].product.price;
+    }
+  }
+  return earnings;
+};
+
 module.exports = adminRouter;
