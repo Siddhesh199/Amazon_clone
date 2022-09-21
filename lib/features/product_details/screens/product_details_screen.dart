@@ -2,6 +2,7 @@ import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/search_bar.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
 import 'package:amazon_clone/models/product.dart';
@@ -141,7 +142,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: CustomButton(text: 'Buy Now', onTap: () {}),
+              child: CustomButton(
+                  text: 'Buy Now',
+                  onTap: () {
+                    showSnackBar(context, 'Feature to be added');
+                  }),
             ),
             const SizedBox(height: 10),
             Padding(
