@@ -2,6 +2,7 @@ import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/address/screens/change_address_screen.dart';
 import 'package:amazon_clone/features/admin/screens/add_products_screen.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/features/home/screens/see_all_deals_screen.dart';
@@ -81,6 +82,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => OrderDetailsScreen(order: order),
+      );
+    case AdminScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AdminScreen(),
       );
     default:
       return MaterialPageRoute(

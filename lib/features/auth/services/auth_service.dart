@@ -4,6 +4,7 @@ import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
@@ -83,8 +84,15 @@ class AuthService {
             Provider.of<UserProvider>(context, listen: false).setUser(res.body);
             await prefs.setString(
                 'x-auth-token', jsonDecode(res.body)['token']);
-            Navigator.pushNamedAndRemoveUntil(
-                context, BottomBar.routeName, (route) => false);
+            var role = jsonDecode(res.body)['type'];
+            print('Type: $role');
+            if (role == 'user') {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, BottomBar.routeName, (route) => false);
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AdminScreen.routeName, (route) => false);
+            }
           });
     } catch (e) {
       showSnackBar(context, e.toString());

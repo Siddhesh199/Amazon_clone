@@ -1,7 +1,9 @@
+import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/features/admin/models/sales.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/features/admin/widgets/category_products_chart.dart';
+import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class AnalyticsScreen extends StatefulWidget {
 }
 
 class _AnalyticsScreenState extends State<AnalyticsScreen> {
+  final AuthService authService = AuthService();
   final AdminServices adminServices = AdminServices();
   int? totalSales;
   List<Sales>? earnings;
@@ -56,6 +59,16 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   ],
                 ),
               ),
+              SizedBox(
+                width: 100,
+                height: 300,
+                child: Center(
+                  child: CustomButton(
+                    text: 'Logout',
+                    onTap: () => authService.logOut(context),
+                  ),
+                ),
+              )
             ],
           );
   }
