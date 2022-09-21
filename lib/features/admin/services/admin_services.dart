@@ -190,12 +190,13 @@ class AdminServices {
     }
   }
 
-  Future <Map<String, dynamic>> fetchEarnings(BuildContext context) async {
+  Future<Map<String, dynamic>> fetchEarnings(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Sales> sales = [];
+    int totalEarnings = 0;
     try {
       http.Response res = await http.get(
-        Uri.parse('$uri/admin/get-orders'),
+        Uri.parse('$uri/admin/analytics'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,
@@ -206,20 +207,23 @@ class AdminServices {
         response: res,
         context: context,
         onSuccess: () {
-          for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            orderList.add(
-              Order.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)[i],
-                ),
-              ),
-            );
-          }
+          var response = jsonDecode(res.body);
+          totalEarnings = response['totalEarnings'];
+          sales = [
+            Sales('Mobiles', response['mobileEarnings']),
+            Sales('Essentials', response['essentialEarnings']),
+            Sales('Appliances', response['applianceEarnings']),
+            Sales('Books', response['bookEarnings']),
+            Sales('Fashion', response['fashionEarnings']),
+          ];
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    return orderList;
+    return {
+      'sales': sales,
+      'totalEarnings': totalEarnings,
+    };
   }
 }
