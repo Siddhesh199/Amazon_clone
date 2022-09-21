@@ -1,5 +1,6 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/search_bar.dart';
+import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   int currentStep = 0;
+  final AdminServices adminServices = AdminServices();
 
   final SearchBar searchBar = SearchBar();
   final TextEditingController searchController = TextEditingController();
@@ -36,6 +38,23 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     // TODO: implement dispose
     super.dispose();
     searchController.dispose();
+  }
+
+  void changeOrderStatus(int status) {
+    adminServices.changeOrderStatus(
+      context: context,
+      status: status + 1,
+      order: widget.order,
+      onSuccess: () {
+        setState(
+          () {
+            if (currentStep < 3) {
+              currentStep += 1;
+            }
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -141,19 +160,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   currentStep: currentStep,
                   controlsBuilder: (context, details) {
                     if (user.type == 'admin') {
-                      return CustomButton(text: 'Done', onTap: () {});
+                      return CustomButton(
+                        text: 'Done',
+                        onTap: () => changeOrderStatus(
+                          details.currentStep,
+                        ),
+                      );
                     }
                     return const SizedBox();
                   },
                   physics: const NeverScrollableScrollPhysics(),
                   steps: [
                     Step(
-                      isActive: currentStep >= 0,
-                      state: currentStep >= 0
+                      isActive: currentStep > 0,
+                      state: currentStep > 0
                           ? StepState.complete
                           : StepState.indexed,
                       title: const Text('Pending'),
-                      content: const Text('Your order is yet to be delivered'),
+                      content: const Text('Your order is yet to be confirmed'),
                     ),
                     Step(
                       isActive: currentStep > 1,
@@ -161,15 +185,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ? StepState.complete
                           : StepState.indexed,
                       title: const Text('Shipped'),
-                      content: const Text('Your order has been shipped'),
+                      content: const Text('Your order is yet to be shipped'),
                     ),
                     Step(
-                      isActive: currentStep >= 2,
-                      state: currentStep >= 2
+                      isActive: currentStep > 2,
+                      state: currentStep > 2
                           ? StepState.complete
                           : StepState.indexed,
                       title: const Text('Delivered'),
-                      content: const Text('Your order is delivered'),
+                      content: const Text('Your order is yet to be delivered'),
                     ),
                   ],
                 ),
